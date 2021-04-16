@@ -1,0 +1,18 @@
+﻿@model List<String>
+
+<a asp-action="index">Volver</a>
+
+@if (Model != null)
+{
+<ul class="list-group">
+    @foreach (String s in Model)
+    {
+        <li class="list-group-item">
+            <a class="btn btn-info" asp-action="FileAws"asp-route-file="@s">view @s</a>
+        </li>
+        <li class="list-group-item">
+            <a class="btn btn-danger" asp-action="DeleteAws" asp-route-file="@s">delete @s</a>
+        </li>
+    }
+</ul>
+}
