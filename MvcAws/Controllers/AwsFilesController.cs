@@ -35,12 +35,19 @@ namespace MvcAws.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadFileAws(IFormFile file)
         {
-            String pathhelper = await this.upload.UploadLocal(file, Folder.Images);
-            using (FileStream stream = new FileStream(pathhelper, FileMode.Open, FileAccess.Read))
+            //String pathhelper = await this.upload.UploadLocal(file, Folder.Images);
+            //using (FileStream stream = new FileStream(pathhelper, FileMode.Open, FileAccess.Read))
+            //{
+            //    bool respuesta = await this.service.UploadFile(stream, file.FileName);
+            //    ViewBag.mensaje = "Archivo subido en AWS Bucket: " + respuesta;
+            //}
+
+            using (MemoryStream m = new MemoryStream())
             {
-                bool respuesta = await this.service.UploadFile(stream, file.FileName);
-                ViewBag.mensaje = "Archivo subido en AWS Bucket: " + respuesta;
+                file.CopyTo(m);
+                await this.service.UploadFile(m, file.FileName);
             }
+
             return View();
         }
         public async Task<IActionResult> FileAws(String file)
